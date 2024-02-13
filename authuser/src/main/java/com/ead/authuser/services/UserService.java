@@ -13,4 +13,6 @@ public interface UserService {
     Optional<UserModel> findById(UUID userId);
     
     void deleteUser(UserModel userModel);
+
+    void save(UserModel userModel);
 }
