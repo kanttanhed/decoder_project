@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @RestController
@@ -28,8 +29,8 @@ public class AuthenticationController {
         BeanUtils.copyProperties(userDto, userModel);
         userModel.setUserStatus(UserStatus.ACTIVE);
         userModel.setUserType(UserType.STUDENT);
-        userModel.setCreationDate(LocalDate.now(ZoneId.of("UTC")).atStartOfDay());
-        userModel.setLastUpdateDate(LocalDate.now(ZoneId.of("UTC")).atStartOfDay());
+        userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
+        userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(userModel);
