@@ -1,12 +1,16 @@
 package com.ead.authuser.controllers;
 
+import com.ead.authuser.dtos.UserDto;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,5 +48,24 @@ public class UserController {
 
         userService.deleteUser(userModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("User deleted successful");
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "userId") UUID userId,
+                                             @JsonView(UserDto.UserView.UserPut.class) UserDto userDto){
+
+        Optional<UserModel> userModelOptional = userService.findById(userId);
+
+        if(userModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+        }else{
+            var userModel = userModelOptional.get();
+            userModel.setFullName(userDto.getFullName());
+            userModel.setPhoneNumber(userDto.getPhoneNumber());
+            userModel.setCpf(userDto.getCpf());
+            userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+            userService.save(userModel);
+            return ResponseEntity.status(HttpStatus.OK).body("User Updated successful");
+        }
     }
 }
