@@ -90,4 +90,23 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body("Password updated successful");
         }
     }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Object> updateImage(@PathVariable(value = "userId") UUID userId,
+                                                 @JsonView(UserDto.UserView.ImagePut.class) UserDto userDto){
+
+        Optional<UserModel> userModelOptional = userService.findById(userId);
+
+        if(userModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+        }
+
+        else{
+            var userModel = userModelOptional.get();
+            userModel.setImageUrl(userDto.getPassword());
+            userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+            userService.save(userModel);
+            return ResponseEntity.status(HttpStatus.OK).body(userModel);
+        }
+    }
 }
