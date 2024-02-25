@@ -52,6 +52,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "userId") UUID userId,
+                                             @RequestBody
                                              @JsonView(UserDto.UserView.UserPut.class) UserDto userDto){
 
         Optional<UserModel> userModelOptional = userService.findById(userId);
@@ -69,9 +70,10 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/{userId}/password")
     public ResponseEntity<Object> updatePassword(@PathVariable(value = "userId") UUID userId,
-                                             @JsonView(UserDto.UserView.PasswordPut.class) UserDto userDto){
+                                                 @RequestBody
+                                                 @JsonView(UserDto.UserView.PasswordPut.class) UserDto userDto){
 
         Optional<UserModel> userModelOptional = userService.findById(userId);
 
@@ -91,9 +93,10 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/{userId}/image")
     public ResponseEntity<Object> updateImage(@PathVariable(value = "userId") UUID userId,
-                                                 @JsonView(UserDto.UserView.ImagePut.class) UserDto userDto){
+                                              @RequestBody
+                                              @JsonView(UserDto.UserView.ImagePut.class) UserDto userDto){
 
         Optional<UserModel> userModelOptional = userService.findById(userId);
 
