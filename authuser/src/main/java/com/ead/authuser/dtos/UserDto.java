@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Data
@@ -19,15 +21,20 @@ public class UserDto {
 
     private UUID userId;
 
+    @NotBlank
     @JsonView(UserView.RegistrationPost.class)
     private String username;
 
+    @NotBlank
+    @Email
     @JsonView(UserView.RegistrationPost.class)
     private String email;
 
+    @NotBlank
     @JsonView({UserView.RegistrationPost.class, UserView.PasswordPut.class})
     private String password;
 
+    @NotBlank
     @JsonView(UserView.PasswordPut.class)
     private String oldPassword;
 
@@ -40,6 +47,7 @@ public class UserDto {
     @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
     private String cpf;
 
+    @NotBlank
     @JsonView(UserView.ImagePut.class)
     private String imageUrl;
 }
