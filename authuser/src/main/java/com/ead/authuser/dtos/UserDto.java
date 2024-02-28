@@ -21,20 +21,20 @@ public class UserDto {
 
     private UUID userId;
 
-    @NotBlank
+    @NotBlank(groups = UserView.RegistrationPost.class)
     @JsonView(UserView.RegistrationPost.class)
     private String username;
 
-    @NotBlank
+    @NotBlank(groups = UserView.RegistrationPost.class)
     @Email
     @JsonView(UserView.RegistrationPost.class)
     private String email;
 
-    @NotBlank
+    @NotBlank(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class})
     @JsonView({UserView.RegistrationPost.class, UserView.PasswordPut.class})
     private String password;
 
-    @NotBlank
+    @NotBlank(groups = UserView.PasswordPut.class)
     @JsonView(UserView.PasswordPut.class)
     private String oldPassword;
 
@@ -47,7 +47,7 @@ public class UserDto {
     @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
     private String cpf;
 
-    @NotBlank
+    @NotBlank(groups = UserView.ImagePut.class)
     @JsonView(UserView.ImagePut.class)
     private String imageUrl;
 }
